@@ -16,25 +16,25 @@ strategy:
 stages:
   pool:
     vmImage: ubuntu-20.04
-- stage: Build the app
+  - stage: Build the app
 
-  jobs:
-  - job: A1
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(python.version)'
-      displayName: 'Use Python $(python.version)'
-    - script: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-      displayName: 'Install dependencies'
-
-- stage: Run some tests on the app
-  jobs:
-  - job: B1
-    steps:
+    jobs:
+    - job: A1
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+        displayName: 'Use Python $(python.version)'
       - script: |
-          pip install pytest pytest-azurepipelines
-          pytest
-        displayName: 'pytest'
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        displayName: 'Install dependencies'
+
+  - stage: Run some tests on the app
+    jobs:
+    - job: B1
+      steps:
+        - script: |
+            pip install pytest pytest-azurepipelines
+            pytest
+          displayName: 'pytest'
