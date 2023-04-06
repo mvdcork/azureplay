@@ -6,17 +6,18 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-20.04
-strategy:
-  matrix:
-    Python36:
-      python.version: '3.6'
-    Python37:
-      python.version: '3.7'
+
 
 stages:
 - stage: Build the app
+  pool:
+    vmImage: ubuntu-20.04
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+      Python37:
+        python.version: '3.7'
   jobs:
   - job: A1
     steps:
