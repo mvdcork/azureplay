@@ -8,33 +8,34 @@ trigger:
 
 pool:
   vmImage: ubuntu-20.04
-strategy:
-  matrix:
-    Python36:
-      python.version: '3.6'
-    Python37:
-      python.version: '3.7'
 
 stages:
-- stage: Build the app
+  - stage: Build
+    jobs:
+    - job: A1
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+        displayName: 'Use Python $(python.version)'
+      - script: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        displayName: Build the app
+      strategy:
+        matrix:
+          Python36:
+            python.version: '3.6'
+          Python37:
+            python.version: '3.7'
 
-  jobs:
-  - job: A1
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(python.version)'
-      displayName: 'Use Python $(python.version)'
-    - script: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-      displayName: 'Install dependencies'
-
-- stage: Run some tests on the app
-  jobs:
-  - job: B1
-    steps:
+  - stage: Test
+    jobs:
+    - job: B1
+      steps:
       - script: |
           pip install pytest pytest-azurepipelines
           pytest
-        displayName: 'pytest'
+        displayName: Test the app
+        condition: 
+
