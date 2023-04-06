@@ -14,9 +14,9 @@ strategy:
       python.version: '3.7'
 
 stages:
-- stage: Build the app
   pool:
     vmImage: ubuntu-20.04
+- stage: Build the app
 
   jobs:
   - job: A1
